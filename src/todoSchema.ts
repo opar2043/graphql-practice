@@ -1,4 +1,19 @@
 const typeDefs = `#graphql
+  
+  type Todo{
+    id: ID
+    todo: String 
+    completed: Boolean 
+    created_at: string
+    authorId : ID
+  }
+  
+  input TodoInput{
+    todo: String
+    completed: Boolean
+    created_at: string
+    authorId : ID
+  }
 
   type User {
     id: ID
@@ -56,6 +71,8 @@ const typeDefs = `#graphql
     posts : [Post]
     post(id: ID!) : Post
     comments : [Comment]
+    todos : [Todo]
+    todo : Todo
   }
 
   type Mutation {
@@ -70,6 +87,10 @@ const typeDefs = `#graphql
     createComment(input: CommentInput) : Comment!
     deleteComment(id: ID!) : Comment!
     updateComment(id: ID!, input: CommentInput) : Comment!
+
+    createTodo(input : TodoInput) : Todo!
+    updateTodo(id: ID! , input : TodoInput) : Todo
+    deleteTodo(id: ID!) : Todo
   }
 `;
 

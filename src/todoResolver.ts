@@ -1,5 +1,6 @@
 import prisma from "./prisma";
 import { Role } from "./generated/prisma/client";
+import { Interface } from "node:readline";
 
 interface UserInput {
   name?: string;
@@ -7,6 +8,14 @@ interface UserInput {
   age?: number;
   role?: string;
 }
+
+interface TodoInput{
+    todo: string;
+    completed: boolean;
+    created_at: string;
+    authorId : number;
+  }
+
 
 interface PostInput {
   title?: string;
@@ -49,6 +58,10 @@ const resolvers = {
       }),
 
     comments: () => prisma.comment.findMany(),
+    todos : ()=> prisma.todo.findMany(),
+    todo : (_: unknown, { id }: { id: string }) => prisma.todo.findFirstOrThrow({
+      where: {id : Number(id)}
+    })
   },
 
   User: {
@@ -152,6 +165,36 @@ const resolvers = {
         },
       });
     },
+
+    // todo crud
+    createTodo : (_ , {input} : {input : TodoInput })=> {
+      return prisma.todo.create({
+        data : {
+           todo : input.todo,
+           completed : input.completed,
+           created_at : input.created_at,
+           authorId : Number(input?.authorId)
+        }
+      })
+    },
+    updateTodo : (_ , {id, input} : {id : string; input : TodoInput })=>{
+      return prisma.todo.update({
+        where : {id : Number(id)},
+        data : {
+          todo : input.todo,
+          completed : input.completed,
+          created_at : input.created_at,
+          authorId : Number(input?.authorId)
+        }
+      })
+    },
+    deleteTodo: (_ , {id} : {id : string})=>{
+      return prisma.todo.delete({
+        where : {
+          id : Number(id)
+        }
+      })
+    }
   },
 };
 
