@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: graphql-api
+    runtime: node
+    buildCommand: npm install && npx prisma generate
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false

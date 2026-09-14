@@ -9,7 +9,7 @@
     "start": "tsx ./src/index.ts",
     "db:seed": "prisma db seed",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "prisma skills sync || exit 0",
+    "postinstall": "prisma generate",
     "generate": "npx prisma generate",
     "migrate": "npx prisma migrate dev"
   },
